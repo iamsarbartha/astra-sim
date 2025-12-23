@@ -346,6 +346,7 @@ class Sys : public Callable {
     std::map<std::string, LogicalTopology*> logical_topologies;
     CollectiveOptimization collectiveOptimization;
     Tick last_scheduled_collective;
+    double frequency;
 
     // statistics
     bool trace_enabled;

@@ -200,6 +200,7 @@ Sys::Sys(int id,
 
     this->communication_delay = 10;
     this->local_reduction_delay = 1;
+    this->frequency = 1; //GHz
 
     collective_impl_lookup = new CollectiveImplLookup(id);
     std::filesystem::path fs(system_configuration);
@@ -339,7 +340,8 @@ Tick Sys::boostedTick() {
         }
     }
     timespec_t tmp = ts->comm_NI->sim_get_time();
-    Tick tick = tmp.time_val / CLOCK_PERIOD;
+    //Tick tick = tmp.time_val / CLOCK_PERIOD;
+    Tick tick = (tmp.time_val * ts->frequency) / CLOCK_PERIOD;
     return tick;
 }
 

@@ -39,6 +39,9 @@ bool Sys::Configuration::ExtractJsonConfigParams(string filename) {
     }
     json j;
     inFile >> j;
+    if(j.contains("frequency")) {
+        sys->frequency = j["frequency"];
+    }
     if (j.contains("scheduling-policy")) {
         string inp_scheduling_policy = j["scheduling-policy"];
         if (inp_scheduling_policy == "LIFO") {
@@ -142,6 +145,9 @@ bool Sys::Configuration::ExtractYamlConfigParams(string filename)
         throw runtime_error("Top-level YAML must be a mapping of int -> string");
     }
 
+    if(y["frequency"]) {
+        sys->frequency = y["frequency"].as<double>();
+    }
     string inp_scheduling_policy = y["scheduling-policy"].as<string>();
     if (inp_scheduling_policy == "LIFO") {
         sys->scheduling_policy = SchedulingPolicy::LIFO;
@@ -218,6 +224,7 @@ bool Sys::Configuration::ExtractYamlConfigParams(string filename)
     if (y["local-mem-trace-filename"]) {
         sys->local_mem_trace_filename= y["local-mem-trace-filename"].as<string>();
     }
+    // TODO add collective parameters for YAML
     //collectiveImplLookup->setup_collective_impl_from_config(j);
     return true;
 
